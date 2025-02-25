@@ -1,0 +1,352 @@
+-----------------------------------------------------------------------------------------------2.3.1
+-----------------------------------------------------------------------------------------------1.
+	a. X 				-> variable
+	b. 'X' 				-> constant, symbol/atom
+	c. _138 			-> free/anonymous variable
+	d. hello 			-> symbol/atom
+	e. Hello 			-> variable
+	f. 'Hello' 			-> symbol/atom
+	g. [a, b, c] 			-> list of symbols/atoms (homogeneous)
+	h. [A, B, C] 			-> list of variables (homogeneous)
+	i. [Ana, has, 'apples'] 	-> list of one variable and 2 symbols/atoms (heterogeneous)
+
+-----------------------------------------------------------------------------------------------2.
+	var(Term) 	-> returns true if the current Term is a free variable
+	nonvar(Term) 	-> returns true if the current Term is not a free variable (opposite of var(Term))
+	number(Term)  	-> returns true if the current Term is bound to a rational number (integer or floating point)
+	atom(Term)	-> returns true if the current Term is bound (not a variable) to an atom
+	atomic(Term)	-> returns true if the current Term is bound (not a variable) and is not compound
+
+-----------------------------------------------------------------------------------------------2.6.1
+Welcome to SWI-Prolog (threaded, 64 bits, version 9.3.20)
+SWI-Prolog comes with ABSOLUTELY NO WARRANTY. This is free software.
+Please run ?- license. for legal details.
+
+For online help and background, visit https://www.swi-prolog.org
+For built-in help, use ?- help(Topic). or ?- apropos(Word).
+
+?- a=a.
+true.
+
+?- a=b
+|    .
+false.
+
+?- 1=2.
+false.
+
+?- 'ana'='Ana'
+|    .
+false.
+
+?- X=1, Y=X
+|    .
+X = Y, Y = 1
+
+?- X=3, Y=2, X=Y.
+false.
+
+?- X=3, X=Y, Y=2.
+false.
+
+?- X=ana
+|    .
+X = ana.
+
+?- X=ana, Y= 'ana', X=Y
+|    .
+X = Y, Y = ana.
+
+?- X = ana, Y = 'ana', X=Y.
+X = Y, Y = ana.
+
+?- a(b,c)=a(X,Y).
+X = b,
+Y = c.
+
+?- a(X,c(d,X))=a(2,c(d,Y)).
+X = Y, Y = 2.
+
+?- a(X,Y)=a(b(c,Y),Z).
+X = b(c, Z),
+Y = Z
+
+?- tree(left, root, Right)=tree(left, root, tree(a,b,tree(c,d,e))).
+Right = tree(a, b, tree(c, d, e)).
+
+?- k(s(g),t(k))=k(X,t(Y)).
+X = s(g),
+Y = k.
+
+?- father(X)=X.
+X = father(X).
+
+?- loves(X,X)=loves(marsellus, mia).
+false.
+
+?- [1,2,3]=[a,b,c].
+false.
+
+?- [1,2,3]=[A,B,C].
+A = 1,
+B = 2,
+C = 3.
+
+?- [abc, 1, f(x) | L2] = [abc | T].
+T = [1, f(x)|L2].
+
+?- [abc, 1, f(x) | L2] = [abc, 1, f(x)].
+L2 = [].
+
+-----------------------------------------------------------------------------------------------3 Final Exercise
+-----------------------------------------------------------------------------------------------1.1
+% c:/Users/L7aur/Desktop/PL/Lab1/final_exercise.pl compiled 0.00 sec, 0 clauses
+[debug]  ?- man(george).
+true.
+
+[debug]  ?- man(X).
+X = andrei ;
+X = george ;
+X = alex ;
+X = mihai ;
+X = marius ;
+X = sergiu.
+
+[debug]  ?- parent(X, andrei).
+X = maria ;
+X = george.
+
+[debug]  ?- parent(maria, X).
+X = ana ;
+X = andrei.
+
+[debug]  ?- mother(ana, X).
+false.
+
+[debug]  ?- mother(X, ana).
+X = maria ;
+false.
+
+-----------------------------------------------------------------------------------------------1.4
+% c:/Users/L7aur/Desktop/PL/Lab1/final_exercise.pl compiled 0.00 sec, 30 clauses
+?- father(alex, X).
+X = sara ;
+X = ema.
+
+?- father(X, Y).
+X = george,
+Y = ana ;
+X = george,
+Y = andrei ;
+X = alex,
+Y = sara ;
+X = alex,
+Y = ema ;
+X = mihai,
+Y = george ;
+X = mihai,
+Y = carmen ;
+X = marius,
+Y = maria ;
+false.
+
+?- mother(dorina, maria).
+true.
+
+-----------------------------------------------------------------------------------------------1.7
+[trace]  ?- aunt(carmen, X).
+   Call: (12) aunt(carmen, _924) ? creep
+   Call: (13) sister(carmen, _2572) ? creep
+   Call: (14) sibling(carmen, _2572) ? creep
+   Call: (15) parent(_4370, carmen) ? creep
+   Exit: (15) parent(mihai, carmen) ? creep
+   Call: (15) parent(mihai, _2572) ? creep
+   Exit: (15) parent(mihai, george) ? creep
+   Call: (15) carmen\=george ? creep
+   Exit: (15) carmen\=george ? creep
+   Exit: (14) sibling(carmen, george) ? creep
+   Call: (14) woman(carmen) ? creep
+   Exit: (14) woman(carmen) ? creep
+   Exit: (13) sister(carmen, george) ? creep
+   Call: (13) parent(george, _924) ? creep
+   Exit: (13) parent(george, ana) ? creep
+   Exit: (12) aunt(carmen, ana) ? creep
+X = ana ;
+   Redo: (13) parent(george, _924) ? creep
+   Exit: (13) parent(george, andrei) ? creep
+   Exit: (12) aunt(carmen, andrei) ? creep
+X = andrei ;
+   Redo: (15) parent(mihai, _2572) ? creep
+   Exit: (15) parent(mihai, carmen) ? creep
+   Call: (15) carmen\=carmen ? creep
+   Fail: (15) carmen\=carmen ? creep
+   Redo: (15) parent(_4370, carmen) ? creep
+   Exit: (15) parent(irina, carmen) ? creep
+   Call: (15) parent(irina, _2572) ? creep
+   Exit: (15) parent(irina, george) ? creep
+   Call: (15) carmen\=george ? creep
+   Exit: (15) carmen\=george ? creep
+   Exit: (14) sibling(carmen, george) ? creep
+   Call: (14) woman(carmen) ? creep
+   Exit: (14) woman(carmen) ? creep
+   Exit: (13) sister(carmen, george) ? creep
+   Call: (13) parent(george, _924) ? creep
+   Exit: (13) parent(george, ana) ? creep
+   Exit: (12) aunt(carmen, ana) ? creep
+X = ana ;
+   Redo: (13) parent(george, _924) ? creep
+   Exit: (13) parent(george, andrei) ? creep
+   Exit: (12) aunt(carmen, andrei) ? creep
+X = andrei ;
+   Redo: (15) parent(irina, _2572) ? creep
+   Exit: (15) parent(irina, carmen) ? creep
+   Call: (15) carmen\=carmen ? creep
+   Fail: (15) carmen\=carmen ? creep
+   Fail: (14) sibling(carmen, _2572) ? creep
+   Fail: (13) sister(carmen, _2572) ? creep
+   Fail: (12) aunt(carmen, _924) ? creep
+false
+
+[trace]  ?- grandmother(dorina, Y).
+   Call: (12) grandmother(dorina, _17012) ? creep
+   Call: (13) mother(dorina, _18660) ? creep
+   Call: (14) woman(dorina) ? creep
+   Exit: (14) woman(dorina) ? creep
+   Call: (14) parent(dorina, _18660) ? creep
+   Exit: (14) parent(dorina, maria) ? creep
+   Exit: (13) mother(dorina, maria) ? creep
+   Call: (13) mother(maria, _17012) ? creep
+   Call: (14) woman(maria) ? creep
+   Exit: (14) woman(maria) ? creep
+   Call: (14) parent(maria, _17012) ? creep
+   Exit: (14) parent(maria, ana) ? creep
+   Exit: (13) mother(maria, ana) ? creep
+   Exit: (12) grandmother(dorina, ana) ? creep
+Y = ana ;
+   Redo: (14) parent(maria, _17012) ? creep
+   Exit: (14) parent(maria, andrei) ? creep
+   Exit: (13) mother(maria, andrei) ? creep
+   Exit: (12) grandmother(dorina, andrei) ? creep
+Y = andrei.
+
+[trace]  ?- grandfather(X, ana).
+   Call: (12) grandfather(_37906, ana) ? creep
+   Call: (13) father(_37906, _39564) ? creep
+   Call: (14) man(_37906) ? creep
+   Exit: (14) man(andrei) ? creep
+   Call: (14) parent(andrei, _39564) ? creep
+   Fail: (14) parent(andrei, _39564) ? creep
+   Redo: (14) man(_37906) ? creep
+   Exit: (14) man(george) ? creep
+   Call: (14) parent(george, _39564) ? creep
+   Exit: (14) parent(george, ana) ? creep
+   Exit: (13) father(george, ana) ? creep
+   Call: (13) father(ana, ana) ? creep
+   Call: (14) man(ana) ? creep
+   Fail: (14) man(ana) ? creep
+   Fail: (13) father(ana, ana) ? creep
+   Redo: (14) parent(george, _39564) ? creep
+   Exit: (14) parent(george, andrei) ? creep
+   Exit: (13) father(george, andrei) ? creep
+   Call: (13) father(andrei, ana) ? creep
+   Call: (14) man(andrei) ? creep
+   Exit: (14) man(andrei) ? creep
+   Call: (14) parent(andrei, ana) ? creep
+   Fail: (14) parent(andrei, ana) ? creep
+   Fail: (13) father(andrei, ana) ? creep
+   Redo: (14) man(_37906) ? creep
+   Exit: (14) man(alex) ? creep
+   Call: (14) parent(alex, _39564) ? creep
+   Exit: (14) parent(alex, sara) ? creep
+   Exit: (13) father(alex, sara) ? creep
+   Call: (13) father(sara, ana) ? creep
+   Call: (14) man(sara) ? creep
+   Fail: (14) man(sara) ? creep
+   Fail: (13) father(sara, ana) ? creep
+   Redo: (14) parent(alex, _116) ? creep
+   Exit: (14) parent(alex, ema) ? creep
+   Exit: (13) father(alex, ema) ? creep
+   Call: (13) father(ema, ana) ? creep
+   Call: (14) man(ema) ? creep
+   Fail: (14) man(ema) ? creep
+   Fail: (13) father(ema, ana) ? creep
+   Redo: (14) man(_58) ? creep
+   Exit: (14) man(mihai) ? creep
+   Call: (14) parent(mihai, _116) ? creep
+   Exit: (14) parent(mihai, george) ? creep
+   Exit: (13) father(mihai, george) ? creep
+   Call: (13) father(george, ana) ? creep
+   Call: (14) man(george) ? creep
+   Exit: (14) man(george) ? creep
+   Call: (14) parent(george, ana) ? creep
+   Exit: (14) parent(george, ana) ? creep
+   Exit: (13) father(george, ana) ? creep
+   Exit: (12) grandfather(mihai, ana) ? creep
+X = mihai ;
+   Redo: (14) parent(mihai, _116) ? creep
+   Exit: (14) parent(mihai, carmen) ? creep
+   Exit: (13) father(mihai, carmen) ? creep
+   Call: (13) father(carmen, ana) ? creep
+   Call: (14) man(carmen) ? creep
+   Fail: (14) man(carmen) ? creep
+   Fail: (13) father(carmen, ana) ? creep
+   Redo: (14) man(_58) ? creep
+   Exit: (14) man(marius) ? creep
+   Call: (14) parent(marius, _116) ? creep
+   Exit: (14) parent(marius, maria) ? creep
+   Exit: (13) father(marius, maria) ? creep
+   Call: (13) father(maria, ana) ? creep
+   Call: (14) man(maria) ? creep
+   Fail: (14) man(maria) ? creep
+   Fail: (13) father(maria, ana) ? creep
+   Redo: (14) man(_58) ? creep
+   Exit: (14) man(sergiu) ? creep
+   Call: (14) parent(sergiu, _116) ? creep
+   Fail: (14) parent(sergiu, _116) ? creep
+   Fail: (13) father(_58, _116) ? creep
+   Fail: (12) grandfather(_58, ana) ? creep
+false.
+
+-----------------------------------------------------------------------------------------------1.8
+?- ancestor(X, sara).
+X = carmen ;
+X = alex ;
+X = mihai ;
+X = irina ;
+X = sergiu ;
+false.
+
+?- ancestor(X, ema).
+X = carmen ;
+X = alex ;
+X = mihai ;
+X = irina ;
+X = sergiu ;
+false.
+
+?- ancestor(X, marius).
+false.
+
+?- ancestor(X, maria).
+X = marius ;
+X = dorina ;
+false.
+
+?- ancestor(sergiu, X).
+X = mihai ;
+X = ana ;
+X = andrei ;
+X = george ;
+X = carmen ;
+X = sara ;
+X = ema ;
+false.
+
+?- ancestor(mihai, ema).
+true ;
+false.
+
+?- ancestor(alex, X).
+X = sara ;
+X = ema ;
+false.
