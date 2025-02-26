@@ -60,12 +60,12 @@ brother(X, Y) :- sibling(X, Y), man(X).
 uncle(X, Y) :- brother(X, Z), parent(Z, Y).
 
 % The grandmother/2 predicate
-% X is the grandmother of Y if X is the mother of Y and Y is the mother of X
-grandmother(X, Y) :- mother(X, Z), mother(Z, Y).
+% X is the grandmother of Y if X is the mother of Y and Y is the parent of X
+grandmother(X, Y) :- mother(X, Z), parent(Z, Y).
 
 % The grandfather/2 predicate
-% X is the grandfather of Y if X is the father of Y and Y is the father of X
-grandfather(X, Y) :- father(X, Z), father(Z, Y).
+% X is the grandfather of Y if X is the father of Y and Y is the parent of X
+grandfather(X, Y) :- father(X, Z), parent(Z, Y).
 
 % The ancestor/2 predicate
 % X is the ancestor of Y if X is linked to Y through a series of parent relationships
