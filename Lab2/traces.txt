@@ -1,0 +1,219 @@
+?- gcd(1, 20, R).
+R = 1 ;
+false.
+
+?- gcd(20, 140, R).
+R = 20 ;
+false.
+
+?- gcd(17, 135, R).
+R = 1 ;
+false.
+
+?- gcd(17, 119, R).
+R = 17 ;
+false.
+
+?- gcd2(1, 20, R).
+R = 1 ;
+false.
+
+?- gcd2(20, 140, R).
+R = 20 ;
+false.
+
+?- gcd2(20, 140, R).
+R = 20 ;
+false.
+
+?- gcd(17, 119, R).
+R = 17 ;
+false.
+
+?- gcd3(17, 119, R).
+R = 17.
+
+?- gcd3(20, 3, R).
+R = 1.
+
+?- gcd4(3, 20, R).
+R = 1 ;
+
+?- factorial_bwd(10, F).
+F = 3628800 ;
+false.
+
+?- factorial_bwd(1, F).
+F = 1 ;
+false.
+
+?- factorial_bwd(7, F).
+F = 5040 ;
+false.
+
+?- factorial_fwd(7, F).
+F = 5040 ;
+false.
+
+?- factorial_fwd(10, F).
+F = 3628800 ;
+false.
+
+?- factorial_fwd(1, F).
+F = 1 
+Unknown action:  (h for help)
+Action? ;
+false.
+
+?- factorial_fwd(4, F).
+F = 24 ;
+false.
+
+?- factorial_fwd(3, F).
+F = 6 ;
+false.
+
+?- factorial_bwd(3, F).
+F = 6 ;
+false.
+
+?- lcm(10, 5, R).
+R = 10 ;
+false.
+
+?- lcm(17, 3, R).
+R = 51 ;
+false.
+
+?- lcm(1, 40, R).
+R = 40 ;
+false.
+
+?- lcm(10000, 250, R).
+R = 10000 ;
+false.
+
+?- solve(1, 2, 1, X).
+X = -1.0.
+
+?- solve(1, -1, 6, X).
+false.
+
+?- solve(1, -1, -6, X).
+X = 3.0 ;
+X = -2.0 ;
+false.
+
+?- power_fwd(2, 10, R).
+R = 1024 ;
+false.
+
+?- power_bwd(2, 10, R).
+R = 1024 ;
+false.
+
+?- power_bwd(3, 4, R).
+R = 81 ;
+false.
+
+?- power_fwd(3, 4, R).
+R = 81 ;
+false.
+
+?- fib2(5, F).
+F = 5.
+
+?- fib(5, F).
+F = 5 ;
+false.
+
+?- fib(7, F).
+F = 13 ;
+false.
+
+?- fib2(7, F).
+F = 13.
+
+?- fib2(10, F).
+F = 55.
+
+?- fib(10, F).
+F = 55 ;
+false.
+
+଀?- fib2(5, F).
+F = 5.
+
+?- fib(5, F).
+F = 5 ;
+false.
+
+?- fib(7, F).
+F = 13 ;
+false.
+
+?- fib2(7, F).
+F = 13.
+
+?- fib2(10, F).
+F = 55.
+
+?- fib(10, F).
+F = 55 ;
+false.
+
+?- fib2(10, F).
+F = 55.
+
+?- for_fwd(4, 5, R).
+R = 4 ;
+false.
+
+?- for_fwd(5, 5, R).
+R = 0 ;
+false.
+
+?- for_fwd(2, 5, R).
+R = 9 ;
+false.
+
+?- for(5, O).
+O = 15 ;
+false.
+
+?- for(10, O).
+O = 55 ;
+false.
+
+?- for(0, O).
+O = 0 ;
+false.
+
+?- for(1, P).
+P = 1 ;
+false.
+
+?- while(5, 10, O).
+O = 35 ;
+false.
+
+?- while(1, 10, O).
+O = 45 ;
+false.
+
+?- whil(10, 4, O).
+Correct to: "while(10,4,O)"? 
+Please answer 'y' or 'n'? yes
+false.
+
+?- doWhile(3, 3, O).
+O = 3 ;
+false.
+
+?- doWhile(3, 4, O).
+O = 7 ;
+false.
+
+?- 
+|    doWhile(1, 0, O).
+false.
