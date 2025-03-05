@@ -180,7 +180,7 @@ while(L, H, Out) :- whileHelper(L, H, 0, Out).
 	
 % The doWhile/3 predicate
 % doWhile(L, H, O) computes the sum of all numbers between L and H and returns the result in O
-doWhile(L, H, _) :- L > H, fail.
+doWhile(L, H, L) :- L > H, !.
 doWhile(L, H, Out) :- doWhileHelper(L, H, 0, Out).
 
 	% The doWhileHelper/4 predicate
