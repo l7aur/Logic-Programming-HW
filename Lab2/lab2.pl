@@ -101,15 +101,17 @@ power_bwd(X, Y, R) :-
 
 % The fib2/2 predicate
 % fib2(N, F) computes the N-th Fibonacci number and returns the result in F
-fib2(0, 0).
-fib2(1, 1).
+
 fib2(N, F) :- 
+	N > 1,
+	!,
 	N1 is N - 1, 
-	N2 is N - 2, 
+	N2 is N - 2,
 	fib2(N1, F1), 
 	fib2(N2, F2), 
-	F is F1 + F2,
-	!.
+	F is F1 + F2.
+fib2(0, 0).
+fib2(1, 1).
 
 % The fib/2 predicate
 % fib2(N, F) computes the N-th Fibonacci number and returns the result in F
