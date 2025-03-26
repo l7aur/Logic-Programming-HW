@@ -118,6 +118,7 @@ find_max([], Ini, Ini).
 % reverse_k(L, K, R) reverses the elements starting at position K in L
 reverse_k([H|T], 0, R) :-
     reverse_k(T, 0, NewR),
+    !,
     append(NewR, [H], R).
 reverse_k([H|T], K, [H|R]) :-
     K > 0,
@@ -141,27 +142,27 @@ rle_encode([H|T], [[H, I]|R], I) :-
     rle_encode(T, R, 1).
 rle_encode([], [], _).
 
-% The rle_encode1/2 predicate
-% rle_encode1(L, R) performs run length encoding on list L and returns the result in R
+% The rle_encode2/2 predicate
+% rle_encode2(L, R) performs run length encoding on list L and returns the result in R
 % [1,1,1,2,3,4] => [[1, 3], 2, 3, 4] 
-rle_encode1(L, R) :-
-    rle_encode1(L, R, 1).
-rle_encode1([H|[H|T]], R, I) :-
+rle_encode2(L, R) :-
+    rle_encode2(L, R, 1).
+rle_encode2([H|[H|T]], R, I) :-
     !,
     NewI is I + 1,
-    rle_encode1([H|T], R, NewI).
-rle_encode1([H|[X|T]], [H|R], 1) :-
+    rle_encode2([H|T], R, NewI).
+rle_encode2([H|[X|T]], [H|R], 1) :-
     !,
-    rle_encode1([X|T], R, 1).
-rle_encode1([H|[X|T]], [[H, I]|R], I) :-
+    rle_encode2([X|T], R, 1).
+rle_encode2([H|[X|T]], [[H, I]|R], I) :-
     !,
-    rle_encode1([X|T], R, 1).
-rle_encode1([H|T], [H|R], 1) :-
+    rle_encode2([X|T], R, 1).
+rle_encode2([H|T], [H|R], 1) :-
     !,
-    rle_encode1(T, R, 1).
-rle_encode1([H|T], [[H, I]|R], I) :-
-    rle_encode1(T, R, 1).
-rle_encode1([], [], _).
+    rle_encode2(T, R, 1).
+rle_encode2([H|T], [[H, I]|R], I) :-
+    rle_encode2(T, R, 1).
+rle_encode2([], [], _).
 
 % The rle_decode/2 predicate
 % rle_decode(L, R) decodes a run-length encoded list and returns the result in R.
@@ -181,3 +182,86 @@ rle_decode([[E|_]|T], [E|R], I) :-
     NewI is I - 1,
     rle_decode([[E|_]|T], R, NewI).
 rle_decode([], [], _).
+
+
+% The rnd_select/3 predicate
+% rnd_select(L, N, R) selects N random numbers from L and returns the result in R
+rnd_select(L, N, R) :-
+    rnd_selectHelper(L, L, N, R, -1).
+
+% The rnd_selectHelper/5 predicate
+% rnd_selectHelper(L, CopyL, N, R, I) uses I to compute the index of the item in the list and CopyL as a list backup
+rnd_selectHelper(_, _, 0, [], -1) :- !.
+rnd_selectHelper(_, CopyL, N, R, -1) :-
+    NewN is N - 1,
+    length(CopyL, Length),
+    Max is Length - 1,
+    random_between(0, Max, I),
+    !,
+    rnd_selectHelper(CopyL, CopyL, NewN, R, I).
+rnd_selectHelper([H|_], CopyL, N, [H|R], 0) :-
+    !,
+    rnd_selectHelper(_, CopyL, N, R, -1).
+rnd_selectHelper([_|T], CopyL, N, R, I) :-
+    NewI is I - 1,
+    rnd_selectHelper(T, CopyL, N, R, NewI).
+
+% The rotate_right/3 predicate
+% rotate_right(L, K, R) rotates L by K positions to the right
+rotate_right(L, K, R) :-  
+    length(L, Length),
+    NewK is Length - K,
+    rotate_rightHelper(L, NewK, R, [], []).
+
+% The rotate_rightHelper/5 predicate
+% rotate_rightHelper(L, K, R, R1, R2) 
+rotate_rightHelper([], _, R, R1, R2) :-
+    append(R1, R2, Inter),
+    reverse_k(Inter, 0, R).
+rotate_rightHelper([H|T], K, R, R1, R2) :-
+    K > 0,
+    NewK is K - 1,
+    !,
+    rotate_rightHelper(T, NewK, R, [H|R1], R2).
+rotate_rightHelper([H|T], 0, R, R1, R2) :-
+    rotate_rightHelper(T, 0, R, R1, [H|R2]).
+
+% The del_min1/2 predicate
+% del_min1(L, R) deletes all occurences of the minimum in the list L 
+del_min1(L, R) :- 
+    del_min1(L, R, _).
+
+% The del_min/3 predicate
+% del_min1(L, R, Min) uses Min to store the current minimum in the list 
+del_min1([H|T], [H|R], Min) :-
+    del_min1(T, R, Min),
+    H > Min,
+    !.
+del_min1([H|T], R, Min) :-
+    del_min1(T, R, Min),
+    H == Min,
+    !.
+del_min1([H|T], T, H) :-
+    del_min1(T, _, _),
+    !.
+del_min1([E], [], E).
+
+% The del_max1/2 predicate
+% del_max1(L, R) deletes all occurences of the maximum in the list L 
+del_max1(L, R) :- 
+    del_max1(L, R, _).
+
+% The del_max1/3 predicate
+% del_max1(L, R, Max) uses Max to store the current maximum in the list
+del_max1([H|T], [H|R], Max) :-
+    del_max1(T, R, Max),
+    H < Max,
+    !.
+del_max1([H|T], R, Max) :-
+    del_max1(T, R, Max),
+    H == Max,
+    !.
+del_max1([H|T], T, H) :-
+    del_max1(T, _, _),
+    !.
+del_max1([E], [], E).
