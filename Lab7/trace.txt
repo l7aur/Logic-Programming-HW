@@ -1,0 +1,12 @@
+?- tree1(T), delete_key_succ(6, T, T2), delete_key_succ(4, T2, T3), delete_key_succ(2, T3, T4), delete_key_succ(5, T4, T5), delete_key_succ(7, T5, T6), delete_key_succ(9, T6, T7), delete_key(6, T, T8), delete_key(4, T8, T9), delete_key(2, T9, T10), delete_key(5, T10, T11), delete_key(7, T11, T12), delete_key(9, T12, T13).
+T = t(6, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, t(7, nil, nil), nil)),
+T2 = t(7, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, nil, nil)),
+T3 = t(7, t(5, t(2, nil, nil), nil), t(9, nil, nil)),
+T4 = t(7, t(5, nil, nil), t(9, nil, nil)),
+T5 = t(7, nil, t(9, nil, nil)),
+T6 = T12, T12 = t(9, nil, nil),
+T7 = T13, T13 = nil, <--------------------------sterg toate elementele din t1
+T8 = t(5, t(4, t(2, nil, nil), nil), t(9, t(7, nil, nil), nil)),
+T9 = t(5, t(2, nil, nil), t(9, t(7, nil, nil), nil)),
+T10 = t(5, nil, t(9, t(7, nil, nil), nil)),
+T11 = t(9, t(7, nil, nil), nil).

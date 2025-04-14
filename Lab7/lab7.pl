@@ -26,6 +26,26 @@ print_key(K, _) :-
     write(K),
     nl.
 
+delete_key(Key, t(Key, L, nil), L) :- 
+    !. 
+delete_key(Key, t(Key, nil, R), R) :- 
+    !. 
+delete_key(Key, t(Key, L, R), t(Pred, NL, R)) :- 
+    !, 
+    get_pred(L, Pred, NL). 
+delete_key(Key, t(K, L, R), t(K, NL, R)) :- 
+    Key<K, 
+    !, 
+    delete_key(Key, L, NL). 
+delete_key(Key, t(K, L, R), t(K, L, NR)) :- 
+    delete_key(Key, R, NR). 
+
+% search for the predecessor node 
+get_pred(t(Pred, L, nil), Pred, L) :-
+    !. 
+get_pred(t(Key, L, R), Pred, t(Key, L, NR)) :- 
+    get_pred(R, Pred, NR). 
+
 % ===========================================================================================================================   EXERCISE 1
 
 % The ternary_preorder/2 predicate
@@ -153,10 +173,59 @@ diam(t(_, L, R), H, D) :-
 
 % ===========================================================================================================================   EXERCISE 8
 
+% Test data
+my_tree1(t(3, t(5, nil, nil), t(10, nil, nil))). % true
+my_tree2(t(3, t(5, t(10, nil, nil), t(7, nil, nil)), t(10, t(5, nil, nil), t(4, nil, nil)))). % true
+my_tree3(t(3, t(5, t(10, nil, t(0, nil, nil)), t(7, nil, nil)), t(10, t(5, nil, t(-1, nil, t(x, nil, nil))), t(4, nil, nil)))). % false
+my_tree4(nil). % true
+my_tree5(t(2, nil, t(3, nil, nil))). % false
+my_tree6(t(2, nil, nil)). % true
+my_tree7(t(3, t(5, nil, nil), t(10, t(2, nil, nil), nil))). % false
+
 % The symmetric/1 predicate
 % symmetric(T) checks whether T has a symmetric structure
+symmetric(T) :-
+    symmetric(T, T).
+
+symmetric(nil, nil) :-
+    !. 
+symmetric(t(_, nil, nil), t(_, nil, nil)) :-
+    !.
+symmetric(t(_, L1, nil), t(_, nil, L2)) :-
+    not(atomic(L1)),
+    not(atomic(L2)),
+    symmetric(L1, L2). 
+symmetric(t(_, nil, R1), t(_, R2, nil)) :-
+    not(atomic(R1)),
+    not(atomic(R2)),
+    symmetric(R1, R2).
+symmetric(t(_, L1, R1), t(_, R2, L2)) :-
+    not(atomic(L1)),
+    not(atomic(L2)),
+    not(atomic(R1)),
+    not(atomic(R2)),
+    symmetric(L1, L2),
+    symmetric(R1, R2).   
 
 % ===========================================================================================================================   EXERCISE 9
 
 % The delete_key_succ/3 predicate
 % delete_key_succ(K, T, NewT) deletes the key K in T and returns the new tree in NewT
+delete_key_succ(Key, t(Key, L, nil), L) :-
+    !. 
+delete_key_succ(Key, t(Key, nil, R), R) :-
+    !. 
+delete_key_succ(Key, t(Key, L, R), t(Succ, L, NR)) :- 
+    !, 
+    get_succ(R, Succ, NR). 
+delete_key_succ(Key, t(K, L, R), t(K, NL, R)) :- 
+    Key < K, 
+    !, 
+    delete_key_succ(Key, L, NL). 
+delete_key_succ(Key, t(K ,L, R), t(K, L, NR)) :-
+    delete_key_succ(Key, R, NR). 
+
+get_succ(t(Succ, nil, R), Succ, R) :-
+    !. 
+get_succ(t(Key, L, R), Succ, t(Key, NL, R)) :-
+    get_succ(L, Succ, NL).
