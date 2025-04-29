@@ -1,0 +1,163 @@
+?- L=[1,2,3|_], insert_il2(t, L).
+L = [1, 2, 3, t|_].
+
+?- convertIL2CL([_], R).
+R = [].
+
+?- convertIL2CL([1,2,3|_], R).
+R = [1, 2, 3].
+
+?- convertIL2CL([1|_], R).
+R = [1].
+
+?- convertCL2IL([1,2,3], R).
+R = [1, 2, 3|_].
+
+?- convertCL2IL([1], R).
+R = [1|_].
+
+?- convertCL2IL([], R).
+R = [_].
+
+?- append_il([1,2,3|_], [1,2|_], R).
+R = [1, 2, 3, 1, 2|_].
+
+?- append_il([1,2,3|_], [_], R).
+R = [1, 2, 3|_].
+
+?- append_il([_], [_], R).
+R = [_].
+
+?- append_il([_], [1|_], R).
+R = [1|_].
+
+?- reverse_il_fwd([1,2,3|_], R).
+R = [3, 2, 1|_].
+
+?- reverse_il_fwd([1|_], R).
+R = [1|_].
+
+?- reverse_il_fwd([_], R).
+R = [_].
+
+?- reverse_il_bwd([1,2,3|_], R).
+R = [3, 2, 1|_].
+
+?- reverse_il_bwd([1|_], R).
+R = [1|_].
+
+?- reverse_il_bwd([_], R).
+R = [_].
+
+?- flat_il([[1|_], 2, [3, [4, 5|_]|_]|_], R).
+R = [1, 2, 3, 4, 5|_].
+
+?- flat_il([[1|_], 2|_], R).
+R = [1, 2|_].
+
+?- flat_il([2|_], R).
+R = [2|_].
+
+?- flat_il([_], R).
+R = [_].
+
+?- flat_il([1,2,[[[[3|_]|_]|_]|_],[4|_]|_], R).
+R = [1, 2, 3, 4|_].
+
+?- incomplete_tree(T), convertIT2CT(T, R).
+T = t(7, t(5, t(3, _, _), t(6, _, _)), t(11, _, _)),
+R = t(7, t(5, t(3, nil, nil), t(6, nil, nil)), t(11, nil, nil)).
+
+?- incomplete_tree1(T), convertIT2CT(T, R).
+R = nil.
+
+?- incomplete_tree2(T), convertIT2CT(T, R).
+T = t(7, _, t(3, _, t(2, _, _))),
+R = t(7, nil, t(3, nil, t(2, nil, nil)))
+
+?- complete_tree(T), convertCT2IT(T, R).
+T = t(7, t(5, t(3, nil, nil), t(6, nil, nil)), t(11, nil, nil)),
+R = t(7, t(5, t(3, _, _), t(6, _, _)), t(11, _, _)).
+
+?- incomplete_tree(T), preorder_it(T, R).
+T = t(7, t(5, t(3, _, _), t(6, _, _)), t(11, _, _)),
+R = [7, 5, 3, 6, 11|_].
+
+?- incomplete_tree(T), height_it(T, R).
+T = t(7, t(5, t(3, _, _), t(6, _, _)), t(11, _, _)),
+R = 3
+
+?- incomplete_tree1(T), height_it(T, R).
+R = 0.
+
+?- incomplete_tree2(T), height_it(T, R).
+T = t(7, _, t(3, _, t(2, _, _))),
+R = 3.
+
+?- incomplete_tree(T), diam_it(T, R).
+T = t(7, t(5, t(3, _, _), t(6, _, _)), t(11, _, _)),
+R = 4.
+
+?- incomplete_tree2(T), diam_it(T, R).
+T = t(7, _, t(3, _, t(2, _, _))),
+R = 3.
+
+?- incomplete_tree1(T), diam_it(T, R).
+R = 0.
+
+[debug]  ?- subl_il([1, 1, 2|_], [1, 2, 3, 1, 1, 3, 1, 1, 1, 2, 3,4|_]).
+true.
+
+[debug]  ?- subl_il([1, 1, 2|_], [1, 2, 3, 1, 1, 3, 1, 1, 1, 3, 2, 4|_]).
+false.
+
+[debug]  ?- subl_il([1, 1, 2|_], [1, 2, 3, 1, 1, 3, 1, 1, 3, 2, 4|_]).
+false.
+
+[debug]  ?- subl_il([1|_], [1, 2, 3, 1, 1, 3, 1, 1, 3, 2, 4|_]).
+true.
+
+[debug]  ?- subl_il([1|_], [3, 1|_]).
+true.
+
+[debug]  ?- subl_il([1, 3|_], [3, 1|_]).
+false.
+
+[debug]  ?- subl_il([1, 3|_], [3, 1, 3|_]).
+true.
+
+[debug]  ?- subl_il([1, 3|_], [1, 3, 1, 3|_]).
+true.
+
+[debug]  ?- subl_il([1, 3, 1, 3|_], [1, 3, 1, 3|_]).
+true.
+
+[debug]  ?- subl_il([1, 3, 1, 3, 2|_], [1, 3, 1, 3|_]).
+false.
+
+[debug]  ?- subl_il([1, 3, 1 2|_], [1, 3, 1, 3|_]).
+false.
+
+[debug]  ?- subl_il([1|_], [_]).
+false.
+
+[debug]  ?- subl_il([_], [_]).
+true.
+
+[debug]  ?- subl_il([_], [1,2,3|_]).
+true.
+
+[debug]  ?- subl_il([3|_], [1,2,3|_]).
+true.
+
+[debug]  ?- L1 = [1|_], append_il(L1, [a,b|_]).
+L1 = [1, a, b|_].
+
+[debug]  ?- L1 = [1,2|_], append_il(L1, [a,b|_]).
+L1 = [1, 2, a, b|_].
+
+[debug]  ?- L1 = [1,2|_], append_il(L1, [a|_]).
+L1 = [1, 2, a|_].
+
+[debug]  ?- L1 = [1,2,3|_], append_il(L1, [a,b,c|_]).
+L1 = [1, 2, 3, a, b, c|_].
