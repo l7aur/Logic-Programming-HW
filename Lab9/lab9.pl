@@ -130,7 +130,21 @@ flat_dl([H|T], S, E) :-
     flat_dl(T, Link, E).
 
 % ====================================================================================================== EXERCISE 4
+% The all_decompositions_helper/1 predicate
+% all_decompositions_helper(L) generates all subsets of L and stores them as side effects
+:-dynamic memo_decomposition/2.
+all_decompositions(L, _) :-
+    append(X, Y, L),
+    assertz(memo_decomposition(X, Y)),
+    fail.
+all_decompositions(_, R) :-
+    collect_decompositions(R).
 
+collect_decompositions([[X, Y]|R]) :-
+    retract(memo_decomposition(X, Y)),
+    !,
+    collect_decompositions(R).
+collect_decompositions([]).
 
 % ====================================================================================================== EXERCISE 5
 % The preoreder_dl/3 predicate

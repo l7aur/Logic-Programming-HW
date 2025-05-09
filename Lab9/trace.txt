@@ -1,0 +1,79 @@
+?- convertCL2DL([1,2,3,4], LS, LE).
+LS = [1, 2, 3, 4|LE].
+
+?- convertCL2DL([], LS, LE).
+LS = LE.
+
+?- convertCL2DL([a], LS, LE).
+LS = [a|LE].
+
+?- LS=[1,2,3,4|LE], convertDL2CL(LS,LE,R).
+LS = [1, 2, 3, 4|LE],
+R = [1, 2, 3, 4].
+
+?- LS=[1|LE], convertDL2CL(LS,LE,R).
+LS = [1|LE],
+R = [1].
+
+?- LS=LE, convertDL2CL(LS,LE,R).
+LS = LE,
+R = [].
+
+?- LS=LE, convertDL2CL(LS,LE,R).
+LS = LE,
+R = [].
+
+?- convertIL2DL([1,2,3,4|_], LS, LE).
+LS = [1, 2, 3, 4|LE].
+
+?- convertIL2DL([1|_], LS, LE).
+LS = [1|LE].
+
+?- LS=[1,2,3,4|LE], convertDL2IL(LS,LE,R).
+LS = [1, 2, 3, 4|LE],
+R = [1, 2, 3, 4|_].
+
+?- LS=[1|LE], convertDL2IL(LS,LE,R).
+LS = [1|LE],
+R = [1|_].
+
+?- flat_dl([[1], 2, [3, [4, 5]]], RS, RE).
+RS = [1, 2, 3, 4, 5|RE].
+
+?- flat_dl([[1], [[[2]]], [3, [4, 5]]], RS, RE).
+RS = [1, 2, 3, 4, 5|RE].
+
+?- flat_dl([[1], [[[2]]], [3, [4, [[[1]]], 5]]], RS, RE).
+RS = [1, 2, 3, 4, 1, 5|RE]
+
+?- all_decompositions([1,2,3], List).
+List = [[[], [1, 2, 3]], [[1], [2, 3]], [[1, 2], [3]], [[1, 2, 3], []]].
+
+?- all_decompositions([1,2], List).
+List = [[[], [1, 2]], [[1], [2]], [[1, 2], []]].
+
+?- all_decompositions([1,2,a], List).
+List = [[[], [1, 2, a]], [[1], [2, a]], [[1, 2], [a]], [[1, 2, a], []]].
+
+?- all_decompositions([1,2,a,b], List).
+List = [[[], [1, 2, a, b]], [[1], [2, a, b]], [[1, 2], [a, b]], [[1, 2, a], [b]], [[1, 2, a|...], []]]
+
+?- complete_tree(T), preorder_dl(T, S, E).
+T = t(6, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, t(7, nil, nil), nil)),
+S = [6, 4, 2, 5, 9, 7|E].
+
+?- complete_tree(T), postorder_dl(T, S, E).
+T = t(6, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, t(7, nil, nil), nil)),
+S = [2, 5, 4, 7, 9, 6|E].
+
+?- complete_tree(T), even_dl(T, S, E).
+T = t(6, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, t(7, nil, nil), nil)),
+S = [2, 4, 6|E].
+
+?- incomplete_tree(T), between_dl(T, S, E, 3, 7).
+T = t(6, t(4, t(2, _, _), t(5, _, _)), t(9, t(7, _, _), _)),
+S = [4, 5, 6|E]
+
+?- incomplete_tree(T), collect_depth_k(T, 2, S, E).
+T = t(6, t(4, t(2, _, _), t(5, _, _)), t(9, t(7, _, _), _)),
+S = [4, 9|E].
