@@ -105,5 +105,167 @@ replace_all(X, Y, [H|T], [H|R]) :-
 replace_all(_, _, [], []).
 
 % The replace_all/5 predicate
-% replace_all(X, ReplacementStart, ReplacementEnd, L, R) replaces all Xs in L with the difference list Replacement
-    
+% replace_all(X, ListStart, ListEnd, Y, R) replaces all Xs in L with the sequence Y X Y
+replace_all(X, [H|T], ListEnd, Y, [Y, X, Y|R]) :-
+    \+var(H),
+    X == H,
+    [H|T] \= ListEnd,
+    !,
+    replace_all(X, T, ListEnd, Y, R).
+replace_all(X, [H|T], ListEnd, Y, [H|R]) :-
+    \+var(H),
+    [H|T] \= ListEnd,
+    !,
+    replace_all(X, T, ListEnd, Y, R).
+replace_all(_, _, _, _, []).
+
+% The delete_pos_even/3 predicate
+% delete_pos_even(L, X, R) deletes all occurences of X that are on an even positions
+delete_pos_even(L, X, R) :-
+    delete_pos_even_helper(L, X, 1, R).
+delete_pos_even_helper([X|T], X, Index, R) :-
+    0 is Index mod 2,
+    !,
+    NewIndex is Index + 1,
+    delete_pos_even_helper(T, X, NewIndex, R).
+delete_pos_even_helper([H|T], X, Index, [H|R]) :-
+    !, % for indexation
+    NewIndex is Index + 1,
+    delete_pos_even_helper(T, X, NewIndex, R).
+delete_pos_even_helper([], _, _, []).
+
+% The delete_kth/3 predicate
+% delete_kth(L, K, R) deletes each kth element in L
+delete_kth(L, K, R) :-
+    delete_kth_helper(L, K, 1, R).
+delete_kth_helper([_|T], K, Index, R) :-
+    0 is Index mod K,
+    !,
+    NewIndex is Index + 1,
+    delete_kth_helper(T, K, NewIndex, R).
+delete_kth_helper([H|T], K, Index, [H|R]) :-
+    NewIndex is Index + 1,
+    delete_kth_helper(T, K, NewIndex, R).
+delete_kth_helper([], _, _, []).
+
+% The delete_min/2 predicate
+% delete_min(L, R) deletes all occurences of the minimum in the list
+delete_min([H|T], R) :-
+    delete_min_helper([H|T], H, _, R).
+delete_min([], []).
+delete_min_helper([H|T], CurrMin, Min, NewR) :-
+    H < CurrMin,
+    !,
+    delete_min_helper(T, H, Min, R),
+    update_delete_result(H, Min, R, NewR).
+delete_min_helper([H|T], CurrMin, Min, NewR) :-
+    delete_min_helper(T, CurrMin, Min, R),
+    update_delete_result(H, Min, R, NewR).
+delete_min_helper([], CurrMin, CurrMin, []).
+update_delete_result(X, X, R, R) :-
+    !.
+update_delete_result(E, _, R, [E|R]).
+
+% The delete_max/2 predicate
+% delete_max(L, R) deletes all occurences of the maximum in the list
+delete_max([H|T], R) :-
+    delete_max_helper([H|T], H, _, R).
+delete_max([], []).
+delete_max_helper([H|T], CurrMax, Max, NewR) :-
+    H > CurrMax,
+    !,
+    delete_max_helper(T, H, Max, R),
+    update_delete_result(H, Max, R, NewR).
+delete_max_helper([H|T], CurrMax, Max, NewR) :-
+    delete_max_helper(T, CurrMax, Max, R),
+    update_delete_result(H, Max, R, NewR).
+delete_max_helper([], CurrMax, CurrMax, []).
+
+% The delete_duplicates_keep_first/2 predicate
+% delete_duplicates_keep_first(L, R)
+delete_duplicates_keep_first(L, R) :-
+    delete_duplicates_keep_first_helper(L, [], R).
+delete_duplicates_keep_first_helper([H|T], Acc, R) :-
+    member(H, Acc),
+    !,
+    delete_duplicates_keep_first_helper(T, Acc, R).
+delete_duplicates_keep_first_helper([H|T], Acc, [H|R]) :-
+    delete_duplicates_keep_first_helper(T, [H|Acc], R).
+delete_duplicates_keep_first_helper([], _, []).
+
+% The delete_duplicates_keep_last/2 predicate
+% delete_duplicates_keep_last(L, R)
+delete_duplicates_keep_last([H|T], R) :-
+    member(H, T),
+    !,
+    delete_duplicates_keep_last(T, R).
+delete_duplicates_keep_last([H|T], [H|R]) :-
+    delete_duplicates_keep_last(T, R).
+delete_duplicates_keep_last([], []).
+
+% The reverse_il/2 predicate
+% reverse_il(L, R) reverses an incomplete list
+reverse_il(L, R) :-
+    reverse_il_helper(L, _, R).
+reverse_il_helper([H|T], Acc, R) :-
+    \+var(H),
+    !,
+    reverse_il_helper(T, [H|Acc], R).
+reverse_il_helper(_, Acc, Acc).
+
+% The reverse_k/2 predicate
+% reverse_k(L, K, R) reverses the elements of a list after the kth position
+reverse_k(L, K, R) :-
+    reverse_k_helper(L, K, [], R).
+reverse_k_helper([H|T], K, Acc, [H|R]) :-
+    K > 0,
+    !,
+    NewK is K - 1,
+    reverse_k_helper(T, NewK, Acc, R).
+reverse_k_helper([H|T], 0, Acc, R) :-
+    reverse_k_helper(T, 0, [H|Acc], R).
+reverse_k_helper([], _, Acc, Acc).
+
+% The rle_encode/2 predicate
+% rle_encode(L, R)
+rle_encode([H|T], R) :-
+    rle_encode_helper(T, H, 1, R).
+rle_encode([], []).
+rle_encode_helper([Symbol|T], Symbol, Count, R) :-
+    !,
+    NewCount is Count + 1,
+    rle_encode_helper(T, Symbol, NewCount, R).
+rle_encode_helper([NewSymbol|T], Symbol, Count, [[Symbol, Count]|R]) :-
+    rle_encode_helper(T, NewSymbol, 1, R).
+rle_encode_helper([], Symbol, Count, [[Symbol, Count]]).
+
+% The rle_encode1/2 predicate
+% rle_encode1(L, R)
+rle_encode1([H|T], R) :-
+    rle_encode1_helper(T, H, 1, R).
+rle_encode1([], []).
+rle_encode1_helper([Symbol|T], Symbol, Count, R) :-
+    !,
+    NewCount is Count + 1,
+    rle_encode1_helper(T, Symbol, NewCount, R).
+rle_encode1_helper([NewSymbol|T], Symbol, 1, [Symbol|R]) :-
+    !,
+    rle_encode1_helper(T, NewSymbol, 1, R).
+rle_encode1_helper([NewSymbol|T], Symbol, Count, [[Symbol, Count]|R]) :-
+    rle_encode1_helper(T, NewSymbol, 1, R).
+rle_encode1_helper([], Symbol, Count, [[Symbol, Count]]).
+
+% The rle_decode/2 predicate
+% rle_decode(L, R)
+rle_decode([H|T], R) :-
+    \+atomic(H),
+    !,
+    rle_decode(T, PR),
+    rle_expand(H, PR, R).
+rle_decode([], []).
+rle_expand([Symbol, Count], L, [Symbol|R]) :-
+    Count > 0,
+    !,
+    NewCount is Count - 1,
+    rle_expand([Symbol, NewCount], L, R).
+rle_expand(_, L, L).
