@@ -421,7 +421,6 @@ edge_ex8(13, 1).
 edge_ex8(1, 9).
 edge_ex8(1, 11).
 edge_ex8(5, 15).
-edge_ex8(0, 9).
 
 is_edge_ex8(X, Y) :-
     edge_ex8(X, Y);
