@@ -56,7 +56,7 @@ reverse_helper(N, Acc, ReversedN) :-
     reverse_helper(NewN, NewAcc, ReversedN).
 reverse_helper(0, Acc, Acc).
 
-% =========================================================================================== 1. OPERATIONS ON LISTS
+% =========================================================================================== 2. OPERATIONS ON LISTS
 
 % The sum/2 predicate
 % sum(L, R)
@@ -269,3 +269,135 @@ rle_expand([Symbol, Count], L, [Symbol|R]) :-
     NewCount is Count - 1,
     rle_expand([Symbol, NewCount], L, R).
 rle_expand(_, L, L).
+
+% The rotate_k/3 predicate
+% rotate_k(L, K, R)
+rotate_k(L, K, R) :-
+    list_length(L, Len),
+    Save is Len - K,
+    rotate_k_helper(L, Save, FirstPart, LastPart),
+    append_il(LastPart, FirstPart, R).
+rotate_k_helper([H|T], Save, [H|FirstPart], LastPart) :-
+    Save > 0,
+    !,
+    NewSave is Save - 1,
+    rotate_k_helper(T, NewSave, FirstPart, LastPart).
+rotate_k_helper(L, 0, _, L).
+
+append_il([H|_], L, L) :-
+    var(H),
+    !.
+append_il([H|T], L, [H|R]) :-
+    append_il(T, L, R).
+
+list_length([H|T], NewLen) :-
+    atomic(H),
+    !,
+    list_length(T, Len),
+    NewLen is Len + 1.
+list_length(_, 0).
+
+
+% The sort_chars/2 predicate
+% sort_chars(L, R)
+sort_chars(L, R) :-
+    sort_chars_helper(L, [], R).
+sort_chars_helper([H|T], Acc, R) :-
+    insert_chars_in_place(Acc, H, NewAcc),
+    sort_chars_helper(T, NewAcc, R).
+sort_chars_helper([], Acc, Acc).
+
+insert_chars_in_place([], X, [X]).
+insert_chars_in_place([H|T], X, [H|R]) :-
+    char_code(H, HValue),
+    char_code(X, XValue),
+    HValue < XValue, 
+    !,
+    insert_chars_in_place(T, X, R).
+insert_chars_in_place([H|T], X, [X, H|T]).
+
+% The sort_len/2 predicate
+% sort_len(L, R)
+sort_len(L, R) :-
+    sort_len_helper(L, [], R).
+sort_len_helper([H|T], Acc, R) :-
+    insert_list_in_place(Acc, H, NewAcc),
+    sort_len_helper(T, NewAcc, R).
+sort_len_helper([], Acc, Acc).
+
+insert_list_in_place([], X, [X]).
+insert_list_in_place([H|T], X, [H|R]) :-
+    length(H, LengthH),
+    length(X, LengthX),
+    LengthH < LengthX,
+    !,
+    insert_list_in_place(T, X, R).
+insert_list_in_place([H|T], X, [X, H|T]).
+
+% The remove_dup_on_odd_pos/2
+% remove_dup_on_odd_pos(L, R)
+remove_dup_on_odd_pos([H|T], R) :-
+    remove_dup_on_odd_pos_helper([H|T], 1, [], R).
+remove_dup_on_odd_pos([], []).
+
+remove_dup_on_odd_pos_helper([H|T], Index, Acc, R) :-
+    1 is Index mod 2,
+    (member(H, Acc); member(H, T)),
+    !,
+    NewIndex is Index + 1,
+    remove_dup_on_odd_pos_helper(T, NewIndex, [H|Acc], R).
+remove_dup_on_odd_pos_helper([H|T], Index, Acc, [H|R]) :-   
+    NewIndex is Index + 1,
+    remove_dup_on_odd_pos_helper(T, NewIndex, [H|Acc], R).
+remove_dup_on_odd_pos_helper([], _, _, []).
+
+% =========================================================================================== 3. DEEP LISTS
+
+maximum(X, Y, X) :-
+    X > Y,
+    !.
+maximum(_, Y, Y).
+
+% The depth_list/2 predicate
+% depth_list(L, R)
+depth_list(L, R) :-
+    depth_list_helper(L, 1, R).
+depth_list_helper([H|T], CurrDepth, NewR) :-
+    \+atomic(H),
+    !,
+    NewDepth is CurrDepth + 1,
+    depth_list_helper(H, NewDepth, R1),
+    depth_list_helper(T, CurrDepth, R2),
+    maximum(R1, R2, NewR).
+depth_list_helper([H|T], D, R) :-
+    depth_list_helper(T, D, R).
+depth_list_helper([], D, D).
+
+% The flatten/2 predicate
+% flatten(L, R)
+flatten([H|T], R) :-
+    \+atomic(H),
+    !,
+    flatten(H, R1),
+    flatten(T, R2),
+    append(R1, R2, R).
+flatten([H|T], [H|R]) :-
+    flatten(T, R).
+flatten([], []).
+
+% The flatten_only_depth/3 predicate
+% flatten_only_depth(L, D, R) 
+
+% The sum_k/3 predicate
+% sum_k(L, D, R)
+
+% The count_lists/2 predicate
+% count_lists(L, R) counts the number of lists in a deep list
+
+% The replace_all_deep/4 predicate
+% replace_all_deep(X, Y, L, R)
+
+% The len_con_depth/2 predicate
+% len_con_depth(L, R) replaces each constatn depth sequence in a deep list with its length
+
+% =========================================================================================== 4. TREES
