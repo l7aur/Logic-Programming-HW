@@ -369,7 +369,7 @@ depth_list_helper([H|T], CurrDepth, NewR) :-
     depth_list_helper(H, NewDepth, R1),
     depth_list_helper(T, CurrDepth, R2),
     maximum(R1, R2, NewR).
-depth_list_helper([H|T], D, R) :-
+depth_list_helper([_|T], D, R) :-
     depth_list_helper(T, D, R).
 depth_list_helper([], D, D).
 
@@ -387,17 +387,155 @@ flatten([], []).
 
 % The flatten_only_depth/3 predicate
 % flatten_only_depth(L, D, R) 
+flatten_only_depth(L, D, R) :-
+    flatten_only_depth_helper(L, 1, D, R).
+flatten_only_depth_helper([H|T], CurrDepth, D, R) :-
+    \+atomic(H),
+    !,
+    NewDepth is CurrDepth + 1,
+    flatten_only_depth_helper(H, NewDepth, D, R1),
+    flatten_only_depth_helper(T, CurrDepth, D, R2),
+    append(R1, R2, R).
+flatten_only_depth_helper([H|T], CurrDepth, CurrDepth, [H|R]) :-
+    !,
+    flatten_only_depth_helper(T, CurrDepth, CurrDepth, R).
+flatten_only_depth_helper([_|T], CurrDepth, D, R) :-
+    flatten_only_depth_helper(T, CurrDepth, D, R).
+flatten_only_depth_helper([], _, _, []).
 
 % The sum_k/3 predicate
 % sum_k(L, D, R)
+sum_k(L, D, R) :-
+    sum_k_helper(L, 1, D, R).
+sum_k_helper([H|T], CurrDepth, D, R) :-
+    \+var(H),
+    \+atomic(H),
+    !,
+    NewDepth is CurrDepth + 1,
+    sum_k_helper(H, NewDepth, D, R1),
+    sum_k_helper(T, CurrDepth, D, R2),
+    R is R1 + R2.
+sum_k_helper([H|T], CurrDepth, CurrDepth, NewR) :-
+    \+var(H),
+    !,
+    sum_k_helper(T, CurrDepth, CurrDepth, R),
+    NewR is R + H.
+sum_k_helper([H|T], CurrDepth, D, R) :-
+    \+var(H),
+    !,
+    sum_k_helper(T, CurrDepth, D, R).
+sum_k_helper(_, _, _, 0).
 
 % The count_lists/2 predicate
 % count_lists(L, R) counts the number of lists in a deep list
+count_lists(L, R) :-
+    count_lists_helper(L, 1, R).
+count_lists_helper([H|T], Acc, R) :-
+    \+atomic(H),
+    !,
+    NewAcc is Acc + 1,
+    count_lists_helper(H, NewAcc, Acc1),
+    count_lists_helper(T, Acc1, R).
+count_lists_helper([_|T], Acc, R) :-
+    count_lists_helper(T, Acc, R).
+count_lists_helper([], Acc, Acc).
 
 % The replace_all_deep/4 predicate
 % replace_all_deep(X, Y, L, R)
+replace_all_deep(X, Y, [H|T], R) :-
+    \+atomic(H),
+    !,
+    replace_all_deep(X, Y, H, R1),
+    replace_all_deep(X, Y, T, R2),
+    append([R1], R2, R).
+replace_all_deep(X, Y, [X|T], [Y|R]) :-
+    !,
+    replace_all_deep(X, Y, T, R).
+replace_all_deep(X, Y, [H|T], [H|R]) :-
+    !, 
+    replace_all_deep(X, Y, T, R).
+replace_all_deep(_, _, [], []).
+
 
 % The len_con_depth/2 predicate
 % len_con_depth(L, R) replaces each constatn depth sequence in a deep list with its length
+len_con_depth(L, R) :-
+    len_con_depth_helper(L, 0, R).
+len_con_depth_helper([H|T], 0, R) :-
+    \+atomic(H),
+    !,
+    len_con_depth_helper(H, 0, R1),
+    len_con_depth_helper(T, 0, R2),
+    append([R1], R2, R).
+len_con_depth_helper([H|T], CurrLen, [CurrLen|R]) :-
+    \+atomic(H),
+        !,
+    len_con_depth_helper(H, 0, R1),
+    len_con_depth_helper(T, 0, R2),
+    append([R1], R2, R).
+
+len_con_depth_helper([_|T], CurrLen, R) :-
+    NewLen is CurrLen + 1,
+    len_con_depth_helper(T, NewLen, R).
+len_con_depth_helper([], 0, []) :- 
+    !.
+len_con_depth_helper([], Len, [Len]).
 
 % =========================================================================================== 4. TREES
+
+tree(t(6, t(4, t(2, nil, nil), t(5, nil, nil)), t(9, t(7, nil, nil), nil))).
+tree1(nil).
+tree2(t(5, nil, _)).
+tree3(t(5, t(7, nil, nil), nil)).
+tree4(t(26,t(14,t(2,_,_),t(15,_,_)),t(50,t(35,t(29,_,_),_),t(51,_,t(58,_,_))))). 
+tree5(t(3, t(2, t(1, nil, nil), t(4, nil, nil)), t(5, nil, nil))).
+
+% The depth_tree/2 predicate
+% depth_tree(Tree, Depth) computes the depth of a complete or incomplete binary tree
+depth_tree(t(Key, LeftTree, RightTree), R) :-
+    \+var(Key),
+    !,
+    depth_tree(LeftTree, R1),
+    depth_tree(RightTree, R2),
+    NewR1 is R1 + 1,
+    NewR2 is R2 + 1,
+    maximum(NewR1, NewR2, R).
+depth_tree(_, 0).
+
+% The inorder/2 predicate
+% inorder(Tree, Result)
+inorder(t(Key, LeftTree, RightTree), R) :-
+    \+var(Key),
+    !,
+    inorder(LeftTree, R1),
+    inorder(RightTree, R2),
+    append(R1, [Key|R2], R).
+inorder(_, []).
+
+% The collect_k/2 predicate
+% collect_k(Tree, R) collects all leaves of a tree
+collect_k(t(Key, nil, nil), [Key]) :-
+    !.
+collect_k(t(_, LeftTree, RightTree), R) :-
+    collect_k(LeftTree, R1),
+    collect_k(RightTree, R2),
+    append(R1, R2, R).
+collect_k(nil, []).
+
+% The is_bst/1 predicate
+% is_bst(Tree)
+is_bst(t(Key, t(KeyLeft, X, Y), t(KeyRight, Z, W))) :-
+    KeyLeft < Key,
+    Key < KeyRight,
+    !,
+    is_bst(t(KeyLeft, X, Y)),
+    is_bst(t(KeyRight, Z, W)).
+is_bst(t(Key, t(KeyLeft, X, Y), nil)) :-
+    KeyLeft < Key,
+    !,
+    is_bst(t(KeyLeft, X, Y)).
+is_bst(t(Key, nil, t(KeyRight, Z, W))) :-
+    Key < KeyRight,
+    !,
+    is_bst(t(KeyRight, Z, W)).
+is_bst(t(_, nil, nil)).
