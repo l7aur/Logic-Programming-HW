@@ -1,0 +1,21 @@
+﻿  Source.cpp
+Source.obj : error LNK2019: unresolved external symbol _PL_register_foreign referenced in function _main
+Source.obj : error LNK2019: unresolved external symbol _PL_predicate referenced in function "void __cdecl consultFile(char const *)" (?consultFile@@YAXPBD@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_open_query referenced in function "void __cdecl decomposeList(int,int *)" (?decomposeList@@YAXHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_next_solution referenced in function "void __cdecl decomposeList(int,int *)" (?decomposeList@@YAXHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_close_query referenced in function "void __cdecl decomposeList(int,int *)" (?decomposeList@@YAXHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_call_predicate referenced in function "void __cdecl consultFile(char const *)" (?consultFile@@YAXPBD@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_new_term_refs referenced in function "void __cdecl decomposeList(int,int *)" (?decomposeList@@YAXHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_new_term_ref referenced in function "void __cdecl consultFile(char const *)" (?consultFile@@YAXPBD@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_copy_term_ref referenced in function "void __cdecl write_list_int(unsigned int)" (?write_list_int@@YAXI@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_get_integer referenced in function "void __cdecl extractKth(int,int *,int)" (?extractKth@@YAXHPAHH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_get_list referenced in function "void __cdecl write_list_int(unsigned int)" (?write_list_int@@YAXI@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_put_variable referenced in function "void __cdecl decomposeList(int,int *)" (?decomposeList@@YAXHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_put_string_chars referenced in function "void __cdecl consultFile(char const *)" (?consultFile@@YAXPBD@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_put_integer referenced in function "void __cdecl create_list_int(unsigned int,int,int *)" (?create_list_int@@YAXIHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_put_nil referenced in function "void __cdecl create_list_int(unsigned int,int,int *)" (?create_list_int@@YAXIHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_cons_list referenced in function "void __cdecl create_list_int(unsigned int,int,int *)" (?create_list_int@@YAXIHPAH@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_unify_integer referenced in function "unsigned int __cdecl pl_myrand(unsigned int)" (?pl_myrand@@YAII@Z)
+Source.obj : error LNK2019: unresolved external symbol _PL_initialise referenced in function _main
+libswipl.dll.a : warning LNK4272: library machine type 'x64' conflicts with target machine type 'x86'
+C:\Users\L7aur\Desktop\PL\Lab12\Debug\prolog.exe : fatal error LNK1120: 18 unresolved externals

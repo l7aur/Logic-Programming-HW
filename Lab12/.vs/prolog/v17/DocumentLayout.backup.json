@@ -1,0 +1,115 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|solutionrelative:prolog\\fwgc.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|solutionrelative:prolog\\sudoku.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.pl||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|solutionrelative:prolog\\fwgc.pl||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.pl||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|solutionrelative:prolog\\sudoku.pl||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\c_prolog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{C325932A-8C3A-4A58-A7A1-247C93E77C65}|prolog\\prolog.vcxproj|solutionrelative:prolog\\c_prolog.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 240,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "fwgc.cpp",
+              "DocumentMoniker": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.cpp",
+              "RelativeDocumentMoniker": "prolog\\fwgc.cpp",
+              "ToolTip": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.cpp",
+              "RelativeToolTip": "prolog\\fwgc.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-21T14:10:59.531Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "sudoku.pl",
+              "DocumentMoniker": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.pl",
+              "RelativeDocumentMoniker": "prolog\\sudoku.pl",
+              "ToolTip": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.pl",
+              "RelativeToolTip": "prolog\\sudoku.pl",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-21T13:47:44.846Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "c_prolog.cpp",
+              "DocumentMoniker": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\c_prolog.cpp",
+              "RelativeDocumentMoniker": "prolog\\c_prolog.cpp",
+              "ToolTip": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\c_prolog.cpp",
+              "RelativeToolTip": "prolog\\c_prolog.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIUAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-21T13:25:33.375Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 240,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "fwgc.pl",
+              "DocumentMoniker": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.pl",
+              "RelativeDocumentMoniker": "prolog\\fwgc.pl",
+              "ToolTip": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\fwgc.pl",
+              "RelativeToolTip": "prolog\\fwgc.pl",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-21T14:13:09.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "sudoku.cpp",
+              "DocumentMoniker": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.cpp",
+              "RelativeDocumentMoniker": "prolog\\sudoku.cpp",
+              "ToolTip": "C:\\Users\\L7aur\\Desktop\\PL\\Lab12\\prolog\\sudoku.cpp",
+              "RelativeToolTip": "prolog\\sudoku.cpp",
+              "ViewState": "AgIAADMAAAAAAAAAAAAowFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-05-21T13:45:52.841Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
