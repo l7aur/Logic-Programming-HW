@@ -679,10 +679,110 @@ collect_all_odd_depth_helper(t(Key, LeftTree, RightTree), CurrDepth, R) :-
     append(R1, R2, R).
 collect_all_odd_depth_helper(_, _, []).
 
+% -----------------------------------------------------------------------------------------
+tree13(t(2,t(8,_,_,_),t(3,_,_,t(1,_,_,_)),t(5,t(7,_,_,_),t(5,_,_,_),t(1,_,_,t(9,_,_,_))))).
 
+% [t(5, t(7, _A, _B, _C), t(5, _D, _E, _F), t(1, _G, _H, t(9, _I, _J, _K))), 
+% t(7, _A, _B, _C), 
+% t(5, _D, _E, _F), 
+% t(1, _G, _H, t(9, _I, _J, _K)), 
+% t(9, _I, _J, _K)]
+
+% The median/2 predicate
+% median(T, R) collects all subtrees having the median value the same as the median of the whole tree
+median(t(Key, LeftTree, CentralTree, RightTree), R) :-
+    \+var(Key),
+    !,
+    median_helper(t(Key, LeftTree, CentralTree, RightTree), Subtrees, NodeList),
+    median_sort_2level_list(NodeList, SortedList),
+    median_get(SortedList, Medians),
+    median_collect_trees(Medians, Subtrees, R).
+median(_, []).
+
+median_helper(t(Key, LeftTree, CentralTree, RightTree), [t(Key, LeftTree, CentralTree, RightTree)|Subtrees], NodeList) :-
+    \+var(Key),
+    !,
+    median_helper(LeftTree, Subtrees1, NodeList1),
+    median_helper(CentralTree, Subtrees2, NodeList2),
+    median_helper(RightTree, Subtrees3, NodeList3),
+    % create the list of nodes corresponding to the current tree
+    append(NodeList2, NodeList3, IntermNodeList),
+    append(NodeList1, IntermNodeList, NodeList0),
+    take_top(NodeList1, NodeList2, NodeList3, SimplifiedNodeList0),
+    flatten(SimplifiedNodeList0, FlatList),
+    append([[Key|FlatList]], NodeList0, NodeList),
+    % save the processed subtrees
+    append(Subtrees2, Subtrees3, IntermSubtrees),
+    append(Subtrees1, IntermSubtrees, Subtrees).
+median_helper(_, [], []).
+
+take_top([H|_], [H1|_], [H2|_], [H, H1, H2]).
+take_top([], [H|_], [H1|_], [H, H1]).
+take_top([H|_], [], [H1|_], [H, H1]).
+take_top([H|_], [H1|_], [], [H, H1]).
+take_top([H|_], [], [], [H]).
+take_top([], [H|_], [], [H]).
+take_top([], [], [H|_], [H]).
+take_top([], [], [], []).
+
+median_collect_trees([H|T], [_|Trees], R) :-
+    !,
+    median_collect_trees_helper(T, H, Trees, R).
+median_collect_trees(_, _, []).
+
+median_collect_trees_helper([Median|T], Median, [Tree|Rest], [Tree|R]) :-
+    !,
+    median_collect_trees_helper(T, Median, Rest, R).
+median_collect_trees_helper([_|T], Median, [_|Rest], R) :-
+    median_collect_trees_helper(T, Median, Rest, R).
+median_collect_trees_helper([], _, _, []).
+
+median_get([H|T], R) :-
+    \+atomic(H),
+    !,
+    median_get(H, R1),
+    median_get(T, R2),
+    append([R1], R2, R).
+median_get([], []) :- 
+    !.
+median_get(L, R) :-
+    length(L, Len),
+    NewLen is Len div 2,
+    median_get_helper(L, NewLen, R).
+
+median_get_helper([_|T], Len, R) :-
+    Len > 0,
+    !,
+    NewLen is Len - 1,
+    median_get_helper(T, NewLen, R).
+median_get_helper([H|_], 0, H).
+
+median_sort_2level_list([H|T], R) :-
+    \+atomic(H),
+    !,
+    median_sort_2level_list(H, R1),
+    median_sort_2level_list(T, R2),
+    append([R1], R2, R).
+median_sort_2level_list(L, R) :-
+    sort_list(L, R).
+
+sort_list(L, R) :-
+    sort_list_helper(L, [], R).
+sort_list_helper([H|T], A, R) :-
+    insert_in_place(H, A, NewA),
+    sort_list_helper(T, NewA, R).
+sort_list_helper([], A, A).
+
+insert_in_place(X, [H|T], [H|R]) :-
+    H < X,
+    !,
+    insert_in_place(X, T, R).
+insert_in_place(X, [H|T], [X, H|T]) :-
+    !.
+insert_in_place(X, [], [X]).
 
 % -----------------------------------------------------------------------------------------
-tree13(t(2,t(4,t(5,_,_),t(7,_,_)),t(3,t(0,t(4,_,_),_),t(8,_,t(5,_,_))))). 
+tree14(t(2,t(4,t(5,_,_),t(7,_,_)),t(3,t(0,t(4,_,_),_),t(8,_,t(5,_,_))))). 
 
 % The height_each/2 predicate
 % height_each(T, R) replaces the key of each node with its height
@@ -697,3 +797,6 @@ height_each_helper(t(Key, LeftTree, RightTree), Height, t(Height, RLeftTree, RRi
     CurrHeight2 is Height2 + 1,
     maximum(CurrHeight1, CurrHeight2, Height).
 height_each_helper(_, -1, _).
+
+% The sum_subtree/2 predicate
+% sum_subtree(T, K, R) replaces the any subtree whose key is K with the sum of the keys of the subtree
