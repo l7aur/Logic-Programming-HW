@@ -800,3 +800,64 @@ height_each_helper(_, -1, _).
 
 % The sum_subtree/2 predicate
 % sum_subtree(T, K, R) replaces the any subtree whose key is K with the sum of the keys of the subtree
+sum_subtree(t(Key, LeftTree, RightTree), Key, t(Sum, nil, nil)) :-
+    !,
+    sum_subtree(LeftTree, S1),
+    sum_subtree(RightTree, S2),
+    Sum is S1 + S2 + Key.
+sum_subtree(t(Key, LeftTree, RightTree), ToReplace, t(Key, RLeftTree, RRightTree)) :-
+    sum_subtree(LeftTree, ToReplace, RLeftTree),
+    sum_subtree(RightTree, ToReplace, RRightTree).
+sum_subtree(nil, _, nil).
+
+sum_subtree(t(Key, LeftTree, RightTree), S) :-
+    sum_subtree(LeftTree, S1),
+    sum_subtree(RightTree, S2),
+    S is S1 + S2 + Key.
+sum_subtree(nil, 0).
+
+% =========================================================================================== 5. GRAPHS
+% The collect/1 predicate
+% collect(R) collects all nodes of a graph
+:-dynamic collected_nodes/1.
+collected_nodes([]).
+
+node(1).
+node(2).
+node(3).
+collect(_) :-
+    node(X),
+    retract(collected_nodes(L)),
+    append(L, [X], NewL),
+    asserta(collected_nodes(NewL)),
+    fail.
+collect(R) :-
+    retract(collected_nodes(R)).
+
+% The info/3 predicate
+% listing(info(Node, OutDegree, InDegree)) computes the InDegree and OutDegree
+edge(1, 2).
+edge(2, 1).
+edge(1, 4).
+edge(1, 3).
+edge(3, 2).
+
+:-dynamic info/3.
+
+info_engine :-
+    edge(X, Y),
+    init(X, OutX, InX),
+    init(Y, OutY, InY),
+    NewOutX is OutX + 1,
+    NewInY is InY + 1,
+    asserta(info(X, NewOutX, InX)),
+    asserta(info(Y, OutY, NewInY)),
+    fail.
+info_engine :-
+    listing(info(_, _, _)),
+    retractall(info(_, _, _)).
+
+init(X, In, Out) :-
+    retract(info(X, In, Out)),
+    !.
+init(_, 0, 0).
